@@ -10,14 +10,14 @@ const { URL } = require('url');
     }
 
     const date = new Date();
-    const timestamp = date.toISOString().replace(/[:.]/g, ''); // Format for filenames
+    const timestamp = date.toISOString().replace(/[:.]/g, '-'); // Format for filenames
 
     for (const url of urls) {
         console.log(`Starting tests for: ${url}`);
         const parsedUrl = new URL(url);
         const hostname = parsedUrl.hostname;
 
-        let sanitizedPath = parsedUrl.pathname.replace(/[^a-zA-Z0-9]/g, '');
+        let sanitizedPath = parsedUrl.pathname.replace(/[^a-zA-Z0-9]/g, '-');
         if (sanitizedPath.length > 100) sanitizedPath = sanitizedPath.substring(0, 100);
 
         for (let i = 1; i <= 2; i++) {
@@ -50,7 +50,7 @@ const { URL } = require('url');
             });
 
             // Save report for each test
-            const reportFilename = `report_${hostname}_${sanitizedPath}_test${i}_${timestamp}.html`;
+            const reportFilename = `report_${hostname}${sanitizedPath}_test${i}_${timestamp}.html`;
             const reportHtml = report;
 
             if (!fs.existsSync('./lighthouse-results')) {
